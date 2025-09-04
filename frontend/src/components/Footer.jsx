@@ -33,8 +33,8 @@ const Footer = () => {
 
 
   const resources = [
-    { name: 'Study Materials', href: '/subjects',target:null },
-    { name: 'Academic Calendar', href: '/ac-calendar',target:"new" },
+    { name: 'Study Materials', href: '/subjects' },
+    { name: 'Academic Calendar', href: '/ac-calendar', },
   ];
 
 
@@ -184,7 +184,6 @@ const Footer = () => {
                   viewport={{ once: true }}
                 >
                   <a
-                    target={resource.target}
                     href={resource.href}
                     className="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm flex items-center gap-2 group"
                   >
