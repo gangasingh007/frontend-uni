@@ -150,7 +150,6 @@ const Footer = () => {
                 >
                   <a
                     href={link.href}
-                    target={link.external ? '_blank' : undefined}
                     rel={link.external ? 'noopener noreferrer' : undefined}
                     className="text-gray-400 hover:text-purple-400 transition-colors duration-300 text-sm flex items-center gap-2 group"
                   >
