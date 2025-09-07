@@ -52,8 +52,8 @@ const Navbar = () => {
         { href: "/profile", icon: User2, label: "Profile", color: "red" },
         { href: "/subjects", icon: BookOpen, label: "Subjects", color: "blue" },
         { href: "/explore", icon: Compass, label: "Explore", color: "cyan" },
-        { href: "/syllabus", icon: BookOpenCheck, label: "Syllabus", color: "green", external: true },
-        { href: "/datesheet", icon: CalendarClock, label: "Datesheet", color: "orange", external: true },
+        { href: "/syllabus", icon: BookOpenCheck, label: "Syllabus", color: "green", external: false },
+        { href: "/datesheet", icon: CalendarClock, label: "Datesheet", color: "orange", external: false },
     ];
     const navLinks1 = [
         { href: "/", icon: Home, label: "Dashboard", color: "purple" },

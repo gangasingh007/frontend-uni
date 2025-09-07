@@ -287,7 +287,6 @@ const ResourceCard = ({ resource, onEdit, onDelete, onSummarize, isAdmin }) => {
                 </div>
                 <div className="flex-grow">
                      <h3 className="text-xl font-bold text-white mb-2 line-clamp-2">{resource.title}</h3>
-                     <p className="text-sm text-gray-400 line-clamp-1">Added by: {authorName}</p>
                 </div>
                  <div className="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
                     <div className="flex items-center gap-2">
