@@ -1,4 +1,3 @@
-import { Analytics } from "@vercel/analytics/next"
 import React, { useState, useEffect } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoute'
@@ -60,7 +59,6 @@ const App = () => {
 
   return (
     <div className='animated-bg'>
-      <Analytics />
    <Toaster
   position="top-center"
   gutter={12}
