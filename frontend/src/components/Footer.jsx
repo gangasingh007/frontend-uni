@@ -27,14 +27,14 @@ const Footer = () => {
     { name: 'Dashboard', href: '/' },
     { name: 'Subjects', href: '/subjects' },
     { name: 'Profile', href: '/profile' },
-    { name: 'Syllabus', href: '/syllabus', external: true },
-    { name: 'Datesheet', href: '/datesheet', external: true }
+    { name: 'Syllabus', href: '/syllabus', external: false },
+    { name: 'Datesheet', href: '/datesheet', external: false }
   ];
 
 
   const resources = [
     { name: 'Study Materials', href: '/subjects' },
-    { name: 'Academic Calendar', href: '/ac-calendar', },
+    { name : "Explore other Classes", href: '/explore' },
   ];
 
 
