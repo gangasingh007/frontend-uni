@@ -95,7 +95,7 @@ const ExplorePage = () => {
   if (loading) return <Loader />;
 
   return (
-    <div className="min-h-screen w-full relative bg-gradient-to-br from-[#0a0a0f] via-[#141423] to-[#1a1a2e]">
+    <div className="min-h-screen w-full relative ">
       <div className="absolute inset-0 -z-10"><InteractiveBackground /></div>
       <Navbar />
       <main className="relative z-10 px-4 sm:px-6 lg:px-8 py-8">

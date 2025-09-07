@@ -147,7 +147,7 @@ const ProfileSidebar = ({ user, onEditClick }) => (
             </div>
         </motion.div>
 
-        <h2 className="text-3xl font-bold text-white truncate max-w-full">{`${user?.firstName || ''} ${user?.lastName || ''}`}</h2>
+        <h2 className="text-3xl pb-1 font-bold text-white truncate max-w-full">{`${user?.firstName || ''} ${user?.lastName || ''}`}</h2>
         <p className="text-gray-400 truncate max-w-full mt-1 mb-6">{user?.email || ''}</p>
         
         {/* ENHANCEMENT: Added a glowing shadow to the verified badge */}

@@ -164,7 +164,7 @@ const SubjectGrid = ({ subjects, loading, error, onRetry, onAddClick, onEdit, on
         navigate('/subjects/resource');
     };
 
-    if (loading && subjects.length === 0) return <Loader message='Loading Subjects...' />;
+    if (loading && subjects.length === 0) return <Loader message='Loading...' />;
     if (error) return <ErrorState message={error} onRetry={onRetry} />;
     if (!loading && subjects.length === 0) return <EmptyState onAddClick={onAddClick} isAdmin={isAdmin} />;
 
