@@ -150,7 +150,6 @@ const Footer = () => {
                 >
                   <a
                     href={link.href}
-                    rel={link.external ? 'noopener noreferrer' : undefined}
                     className="text-gray-400 hover:text-purple-400 transition-colors duration-300 text-sm flex items-center gap-2 group"
                   >
                     <span className="w-1 h-1 bg-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
@@ -180,6 +179,7 @@ const Footer = () => {
                   initial={{ opacity: 0, x: -10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.4, delay: index * 0.05 }}
+                  viewport={{ once: true }}
                 >
                   <a
                     href={resource.href}
