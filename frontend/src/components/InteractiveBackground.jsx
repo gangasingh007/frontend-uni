@@ -109,7 +109,7 @@ const InteractiveBackground = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="absolute inset-0 -z-20 w-[97vw]"  />;
+  return <canvas ref={canvasRef} className="absolute inset-0 -z-20 w-[97vw] h-[75vw]"  />;
 };
 
 export default InteractiveBackground;

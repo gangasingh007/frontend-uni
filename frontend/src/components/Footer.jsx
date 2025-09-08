@@ -15,28 +15,18 @@ import {
   ArrowRight,
   Computer,
   Sparkles,
-  Laptop
+  Laptop,
+  Zap,
+  Star,
+  Shield,
+  Clock,
+  Award,
+  Globe
 } from 'lucide-react';
 
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-
-
-  const quickLinks = [
-    { name: 'Dashboard', href: '/' },
-    { name: 'Subjects', href: '/subjects' },
-    { name: 'Profile', href: '/profile' },
-    { name: 'Syllabus', href: '/syllabus', external: false },
-    { name: 'Datesheet', href: '/datesheet', external: false }
-  ];
-
-
-  const resources = [
-    { name: 'Study Materials', href: '/subjects' },
-    { name : "Explore other Classes", href: '/explore' },
-  ];
-
 
   const socialLinks = [
     { icon: Github, href: 'https://github.com/gangasingh007', label: 'GitHub' },
@@ -45,13 +35,25 @@ const Footer = () => {
     { icon: Instagram, href: 'https://www.instagram.com/ganga.singh.007/', label: 'Instagram' }
   ];
 
-
   const features = [
     { icon: BookOpen, title: 'Access Subjects', description: 'Comprehensive learning resources' },
     { icon: Users, title: 'Community', description: 'Connect with peers and faculty (soon)' },
     { icon: Sparkles, title: 'AI summarization', description: 'Single Click Summarization' }
   ];
 
+  const stats = [
+    { number: '(Soon)', label: 'Students', icon: Users },
+    { number: 'All', label: 'Subjects', icon: BookOpen },
+    { number: '24/7', label: 'Support', icon: Clock },
+    { number: '100%', label: 'Free', icon: Heart }
+  ];
+
+  const achievements = [
+    { icon: Award, title: 'Excellence', subtitle: 'Academic Quality' },
+    { icon: Shield, title: 'Trusted', subtitle: 'Secure Platform' },
+    { icon: Zap, title: 'Fast', subtitle: 'Quick Access' },
+    { icon: Globe, title: 'Connected', subtitle: 'Global Reach' }
+  ];
 
   return (
     <footer className="relative bg-gradient-to-br from-[#0a0a0f] via-[#04040a] to-[#05050a] border-t border-[#2a2a40] overflow-hidden">
@@ -71,7 +73,6 @@ const Footer = () => {
           />
         </div>
       </div>
-
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-16">
         {/* Main Footer Content */}
@@ -98,7 +99,6 @@ const Footer = () => {
                 and tools for educational excellence in the digital age.
               </p>
             </div>
-
 
             {/* Features Highlight */}
             <div className="space-y-3">
@@ -127,8 +127,7 @@ const Footer = () => {
             </div>
           </motion.div>
 
-
-          {/* Quick Links */}
+          {/* Stats Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -136,32 +135,36 @@ const Footer = () => {
             viewport={{ once: true }}
           >
             <h4 className="text-white text-lg font-semibold mb-6 flex items-center gap-2">
-              <ArrowRight className="w-4 h-4 text-purple-400" />
-              Quick Links
+              <Star className="w-4 h-4 text-yellow-400" />
+              Platform Stats
             </h4>
-            <ul className="space-y-3">
-              {quickLinks.map((link, index) => (
-                <motion.li
-                  key={link.name}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                  viewport={{ once: true }}
-                >
-                  <a
-                    href={link.href}
-                    className="text-gray-400 hover:text-purple-400 transition-colors duration-300 text-sm flex items-center gap-2 group"
+            <div className="grid grid-cols-2 gap-4">
+              {stats.map((stat, index) => {
+                const Icon = stat.icon;
+                return (
+                  <motion.div
+                    key={stat.label}
+                    className="group"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    whileHover={{ scale: 1.05 }}
                   >
-                    <span className="w-1 h-1 bg-purple-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                    {link.name}
-                  </a>
-                </motion.li>
-              ))}
-            </ul>
+                    <div className="bg-gradient-to-br from-[#1e1e32] to-[#0f0f1a] rounded-xl p-4 border border-purple-500/20 group-hover:border-purple-500/40 transition-all duration-300">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Icon className="w-4 h-4 text-purple-400" />
+                      </div>
+                      <div className="text-2xl font-bold text-white mb-1">{stat.number}</div>
+                      <div className="text-xs text-gray-400">{stat.label}</div>
+                    </div>
+                  </motion.div>
+                );
+              })}
+            </div>
           </motion.div>
 
-
-          {/* Resources */}
+          {/* Achievement Badges */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -169,30 +172,38 @@ const Footer = () => {
             viewport={{ once: true }}
           >
             <h4 className="text-white text-lg font-semibold mb-6 flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-blue-400" />
-              Resources
+              <Award className="w-4 h-4 text-orange-400" />
+              Why Choose Us
             </h4>
-            <ul className="space-y-3">
-              {resources.map((resource, index) => (
-                <motion.li
-                  key={resource.name}
-                  initial={{ opacity: 0, x: -10 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.4, delay: index * 0.05 }}
-                  viewport={{ once: true }}
-                >
-                  <a
-                    href={resource.href}
-                    className="text-gray-400 hover:text-blue-400 transition-colors duration-300 text-sm flex items-center gap-2 group"
+            <div className="space-y-3">
+              {achievements.map((achievement, index) => {
+                const Icon = achievement.icon;
+                return (
+                  <motion.div
+                    key={achievement.title}
+                    className="relative group"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    whileHover={{ x: 8 }}
                   >
-                    <span className="w-1 h-1 bg-blue-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                    {resource.name}
-                  </a>
-                </motion.li>
-              ))}
-            </ul>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-transparent to-purple-500/5 group-hover:to-purple-500/10 transition-all duration-300">
+                      <div className="p-2 rounded-full bg-gradient-to-br from-orange-500/20 to-pink-500/20 group-hover:from-orange-500/30 group-hover:to-pink-500/30 transition-all duration-300">
+                        <Icon className="w-3 h-3 text-orange-400" />
+                      </div>
+                      <div>
+                        <p className="text-white text-sm font-medium">{achievement.title}</p>
+                        <p className="text-gray-500 text-xs">{achievement.subtitle}</p>
+                      </div>
+                    </div>
+                    {/* Subtle glow effect */}
+                    <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent via-purple-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></div>
+                  </motion.div>
+                );
+              })}
+            </div>
           </motion.div>
-
 
           {/* Contact & Social */}
           <motion.div
@@ -226,47 +237,44 @@ const Footer = () => {
               </div>
             </div>
 
+            <div>
+              <p className="text-gray-400 text-sm mb-3 tracking-wide">Follow</p>
+              <div className="flex gap-3">
+                {socialLinks.map((social, index) => {
+                  const Icon = social.icon;
+                  return (
+                    <motion.a
+                      key={social.label}
+                      href={social.href}
+                      className="relative group p-2.5 rounded-xl bg-[#1e1e32] text-gray-400 
+                                shadow-inner shadow-black/20
+                                hover:text-white transition-all duration-300"
+                      whileHover={{ scale: 1.15, y: -3 }}
+                      whileTap={{ scale: 0.9 }}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20, delay: index * 0.08 }}
+                      viewport={{ once: true }}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {/* Icon */}
+                      <Icon className="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300" />
 
-      <div>
-        <p className="text-gray-400 text-sm mb-3 tracking-wide ">Follow</p>
-        <div className="flex gap-3">
-          {socialLinks.map((social, index) => {
-            const Icon = social.icon;
-            return (
-              <motion.a
-                key={social.label}
-                href={social.href}
-                className="relative group p-2.5 rounded-xl bg-[#1e1e32] text-gray-400 
-                          shadow-inner shadow-black/20
-                          hover:text-white transition-all duration-300"
-                whileHover={{ scale: 1.15, y: -3 }}
-                whileTap={{ scale: 0.9 }}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20, delay: index * 0.08 }}
-                viewport={{ once: true }}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {/* Icon */}
-                <Icon className="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform duration-300" />
+                      {/* Glow ring on hover */}
+                      <span className="absolute inset-0 rounded-xl bg-gradient-to-tr from-purple-500/20 via-pink-500/20 to-blue-500/20 
+                                      opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></span>
 
-                {/* Glow ring on hover */}
-                <span className="absolute inset-0 rounded-xl bg-gradient-to-tr from-purple-500/20 via-pink-500/20 to-blue-500/20 
-                                opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm"></span>
-
-                {/* Border highlight */}
-                <span className="absolute inset-0 rounded-xl border border-transparent 
-                                group-hover:border-purple-500/30 transition-all duration-500"></span>
-              </motion.a>
-            );
-          })}
-        </div>
-      </div>
-
+                      {/* Border highlight */}
+                      <span className="absolute inset-0 rounded-xl border border-transparent 
+                                      group-hover:border-purple-500/30 transition-all duration-500"></span>
+                    </motion.a>
+                  );
+                })}
+              </div>
+            </div>
           </motion.div>
         </div>
-
 
         {/* Bottom Section */}
         <motion.div
@@ -280,13 +288,11 @@ const Footer = () => {
             <div className="flex items-center gap-2 text-gray-400 text-sm">
               <span>© {currentYear} UniConnect</span>
             </div>
-           
           </div>
         </motion.div>
       </div>
     </footer>
   );
 };
-
 
 export default Footer;
