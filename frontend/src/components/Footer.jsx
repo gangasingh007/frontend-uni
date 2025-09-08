@@ -1,4 +1,5 @@
-import React from 'react';
+import axios from "axios"
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   Mail,
@@ -23,10 +24,34 @@ import {
   Award,
   Globe
 } from 'lucide-react';
+import { useRecoilState } from "recoil";
+import { statsAtom } from "../atoms/stats.Atom";
 
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [users , setusers] = useState(0)
+  const [resources , setresources] = useState(0)
+  const [stats , setstats] = useRecoilState(statsAtom)
+
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/stats/getStats`)
+        const response = res.data
+        setusers(response.users ?? 0)
+        setresources(response.resources ?? 0)
+        setstats(response)
+      } catch (error) {
+        setusers(0)
+        setresources(0)
+        setstats({users: 0, resources: 0})
+      }
+    }
+
+    fetchdata();
+  }, [])
+  
 
   const socialLinks = [
     { icon: Github, href: 'https://github.com/gangasingh007', label: 'GitHub' },
@@ -41,9 +66,9 @@ const Footer = () => {
     { icon: Sparkles, title: 'AI summarization', description: 'Single Click Summarization' }
   ];
 
-  const stats = [
-    { number: '(Soon)', label: 'Students', icon: Users },
-    { number: 'All', label: 'Subjects', icon: BookOpen },
+  const statsData = [
+    { number: users, label: 'Students', icon: Users },    
+    { number: resources, label: 'Resources', icon: BookOpen },
     { number: '24/7', label: 'Support', icon: Clock },
     { number: '100%', label: 'Free', icon: Heart }
   ];
@@ -52,7 +77,6 @@ const Footer = () => {
     { icon: Award, title: 'Excellence', subtitle: 'Academic Quality' },
     { icon: Shield, title: 'Trusted', subtitle: 'Secure Platform' },
     { icon: Zap, title: 'Fast', subtitle: 'Quick Access' },
-    { icon: Globe, title: 'Connected', subtitle: 'Global Reach' }
   ];
 
   return (
@@ -139,7 +163,7 @@ const Footer = () => {
               Platform Stats
             </h4>
             <div className="grid grid-cols-2 gap-4">
-              {stats.map((stat, index) => {
+              {statsData.map((stat, index) => {
                 const Icon = stat.icon;
                 return (
                   <motion.div

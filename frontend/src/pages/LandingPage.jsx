@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ChevronRight, BookOpen, Brain, Users, Search, FileText, Zap, Star, Menu, X, ArrowRight, Sparkles, Shield, Clock, Target } from 'lucide-react';
 import Footer from '../components/Footer';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { statsAtom } from '../atoms/stats.Atom';
 
 // Enhanced Feature Card with better animations and styling
 const FeatureCard = ({ icon, title, description, index }) => (
@@ -101,32 +103,44 @@ const BenefitCard = ({ icon, title, description, color, index }) => {
 };
 
 // Enhanced Stats Component
-const StatsSection = () => (
-  <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-950/20 to-purple-950/20 backdrop-blur-sm">
-    <div className="max-w-7xl mx-auto">
-      <div className="grid md:grid-cols-4 gap-8 text-center">
-        {[
-          { number: "10K+", label: "Active Students", icon: <Users className="w-8 h-8" /> },
-          { number: "500+", label: "Study Materials", icon: <FileText className="w-8 h-8" /> },
-          { number: "95%", label: "Time Saved", icon: <Clock className="w-8 h-8" /> },
-          { number: "4.9/5", label: "User Rating", icon: <Star className="w-8 h-8" /> },
-        ].map((stat, index) => (
-          <div key={index} className="group p-6">
-            <div className="text-blue-400 mb-4 mx-auto w-fit group-hover:scale-110 transition-transform duration-300">
-              {stat.icon}
+const StatsSection = ({ users, resources }) => {
+  const navigate = useNavigate();
+  const items = [
+    { number: users, label: "Active Students", icon: <Users className="w-8 h-8" />, route: "/explore" },
+    { number: resources, label: "Study Materials", icon: <FileText className="w-8 h-8" />, route: "/subjects" },
+    { number: "95%", label: "Time Saved", icon: <Clock className="w-8 h-8" />, route: "/syllabus" },
+    { number: "4.9/5", label: "User Rating", icon: <Star className="w-8 h-8" />, route: "/profile" },
+  ];
+
+  return (
+    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-blue-950/20 to-purple-950/20 backdrop-blur-sm">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-4 gap-8 text-center">
+          {items.map((stat, index) => (
+            <div
+              key={index}
+              className="group p-6 rounded-2xl cursor-pointer hover:bg-slate-900/30 border border-transparent hover:border-slate-700/50 transition-all duration-300"
+              role="button"
+              tabIndex={0}
+              onClick={() => navigate(stat.route)}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); navigate(stat.route); } }}
+            >
+              <div className="text-blue-400 mb-4 mx-auto w-fit group-hover:scale-110 transition-transform duration-300">
+                {stat.icon}
+              </div>
+              <div className="text-4xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors duration-300">
+                {stat.number}
+              </div>
+              <div className="text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
+                {stat.label}
+              </div>
             </div>
-            <div className="text-4xl font-bold text-white mb-2 group-hover:text-blue-300 transition-colors duration-300">
-              {stat.number}
-            </div>
-            <div className="text-slate-400 group-hover:text-slate-300 transition-colors duration-300">
-              {stat.label}
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 // Main Landing Page Component
 const LandingPage = () => {
@@ -178,7 +192,7 @@ const LandingPage = () => {
   
   const getSectionClass = (id) => `transition-all duration-1000 ease-out ${visibleSections[id] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-16'}`;
 
- 
+  const stats = useRecoilValue(statsAtom)
 
   return (
     <div className="min-h-screen text-white ">
@@ -305,7 +319,7 @@ const LandingPage = () => {
         </section>
 
         {/* Stats Section */}
-        <StatsSection />
+        <StatsSection users={stats.users} resources={stats.resources} />
 
         {/* Enhanced Problem Statement */}
         <section id="problems" className={`py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-red-950/10 to-slate-950/50 ${getSectionClass('problems')}`}>
