@@ -19,8 +19,6 @@ import ExplorePage from './pages/ExplorePage'
 import Syllabus from './pages/Syllabus'
 import DateSheet from './pages/DateSheet'
 import AcademicCalender from './pages/AcademicCalender'
-import FileUpload from './components/FileUpload'
-import InteractiveBackground from './components/InteractiveBackground'
 import SummaryPage from './pages/SummaryPage'
 
 
