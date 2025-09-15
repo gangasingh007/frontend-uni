@@ -66,7 +66,7 @@ const SummaryPage = () => {
           `${import.meta.env.VITE_BACKEND_URL}/api/v1/resource/gemini-summarize/${classId}/${subjectId}/${resourceId}`,
           { 
             headers: { authorization: `Bearer ${token}` },
-            signal: controller.signal // Pass the signal to the request
+          
           }
         );
         
