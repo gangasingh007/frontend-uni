@@ -156,6 +156,9 @@ const ExplorePage = () => {
             <p className="text-xl text-gray-300 mt-4 max-w-2xl mx-auto leading-relaxed">
               Discover and access study materials from all classes and subjects with AI-powered insights.
             </p>
+            <p className="flex justify-center text-center text-slate-400 font-bold border-2 border-slate-600 rounded-xl p-4 leading-relaxed mt-3 w-0.5/2">
+              Stay Tuned For More Resources
+            </p>
 
             {/* Stats Cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 mb-8">

@@ -119,9 +119,9 @@ const Register = () => {
 
                         <FormSection title="Academic Info" icon={Book}>
                             <div className="grid md:grid-cols-3 gap-4">
-                                <SelectField icon={Book} name="courseName" value={formData.courseName} onChange={handleChange} error={errors.courseName} required options={['Btech', 'Mtech']} />
-                                <SelectField icon={Users} name="section" value={formData.section} onChange={handleChange} error={errors.section} required options={['A', 'B', 'C', 'CE', 'D']} />
-                                <SelectField icon={Calendar} name="semester" value={formData.semester} onChange={handleChange} error={errors.semester} required options={['1', '2', '3', '4', '5', '6', '7', '8']} />
+                                <SelectField icon={Book} name="courseName" value={formData.courseName} onChange={handleChange} error={errors.courseName} title="Select Course" required options={['Btech', 'Mtech']} />
+                                <SelectField icon={Users} name="section" value={formData.section} onChange={handleChange} error={errors.section} title="Select Section" required options={['A', 'B', 'C', 'CE', 'D']} />
+                                <SelectField icon={Calendar} name="semester" value={formData.semester} onChange={handleChange} error={errors.semester} title="Select Semester" required options={['1', '2', '3', '4', '5', '6', '7', '8']} />
                             </div>
                             <InputField icon={Hash} name="rollNumber" placeholder="Roll Number" value={formData.rollNumber} onChange={handleChange} error={errors.rollNumber} required />
                         </FormSection>
@@ -181,7 +181,7 @@ const InputField = ({ icon: Icon, name, error, required, ...props }) => (
     </div>
 );
 
-const SelectField = ({ icon: Icon, name, error, required, options, ...props }) => (
+const SelectField = ({ icon: Icon, name, error, required, options, title }) => (
     <div className="relative">
         <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
         <select
@@ -191,9 +191,9 @@ const SelectField = ({ icon: Icon, name, error, required, options, ...props }) =
                 error ? 'focus:ring-red-500/50 focus:border-red-500/50' : 'focus:ring-purple-500/50 focus:border-purple-500/50'
             } transition-all duration-300 appearance-none`}
             required={required}
-            {...props}
+            
         >
-            <option value="" disabled className="bg-[#1a1a2e] text-gray-500">Select...</option>
+            <option value="" disabled className="bg-[#1a1a2e] text-gray-500">{title || 'Select an option'}</option>
             {options.map(option => (
                 <option key={option} value={option} className="bg-[#1a1a2e] text-white">{option}</option>
             ))}
