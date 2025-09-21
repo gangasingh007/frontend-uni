@@ -22,7 +22,7 @@ import {
   Shield,
   Clock,
   Award,
-  Globe
+  BookAIcon,
 } from 'lucide-react';
 import { useRecoilState } from "recoil";
 import { statsAtom } from "../atoms/stats.Atom";
@@ -56,7 +56,6 @@ const Footer = () => {
   const socialLinks = [
     { icon: Github, href: 'https://github.com/gangasingh007', label: 'GitHub' },
     { icon: Twitter, href: 'https://x.com/gangasingh1734', label: 'Twitter' },
-    { icon: Linkedin, href: 'https://www.linkedin.com/in/ganga-singh-0156b323a/', label: 'LinkedIn' },
     { icon: Instagram, href: 'https://www.instagram.com/ganga.singh.007/', label: 'Instagram' }
   ];
 
@@ -248,12 +247,12 @@ const Footer = () => {
                 <span>Developed By Ganga Singh</span>
               </div>
               <div className="flex items-center gap-3 text-gray-400 text-sm">
-                <Mail className="w-4 h-4 text-purple-400" />
-                <span>gangasingh1734@gmail.com</span>
+                <BookAIcon className="w-4 h-4 text-blue-400" />
+                <span>Student of (Btech-CE: 2023-2027)</span>
               </div>
               <div className="flex items-center gap-3 text-gray-400 text-sm">
-                <Phone className="w-4 h-4 text-blue-400" />
-                <span>+91-7087550589</span>
+                <Mail className="w-4 h-4 text-purple-400" />
+                <span>gangasingh1734@gmail.com</span>
               </div>
               <div className="flex items-center gap-3 text-gray-400 text-sm">
                 <MapPin className="w-4 h-4 text-green-400" />
