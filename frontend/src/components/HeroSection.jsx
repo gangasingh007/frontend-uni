@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRecoilValue } from 'recoil';
 import { userAtom } from '../atoms/userAtom';
-import { CalendarCheck2, LibraryBig, BookOpen, GraduationCap, Clock, ArrowRight, Hash, Compass } from 'lucide-react';
+import { CalendarCheck2, LibraryBig, BookOpen, GraduationCap, Clock, ArrowRight, Hash, Compass, PackageSearch } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import InteractiveBackground from './InteractiveBackground';
 import Loader from './Loader';
@@ -30,7 +30,7 @@ const HeroSection = () => {
     const quickActions = [
         { icon: BookOpen, label: 'View Subjects', color: 'from-purple-500 to-indigo-500', href: '/subjects', description: 'Browse your course subjects' },
         { icon: LibraryBig, label: 'Syllabus', color: 'from-emerald-500 to-teal-500', href: "/syllabus", description: 'Review your curriculum',},
-        { icon: Compass, label: 'Explore', color: 'from-orange-500 to-yellow-500', href: "/explore", description: 'Explore the Material of different Sections',}
+        { icon: PackageSearch, label: 'Explore', color: 'from-orange-500 to-yellow-500', href: "/explore", description: 'Explore the Material of different Sections',}
     ];
 
     return (

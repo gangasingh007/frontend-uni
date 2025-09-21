@@ -6,7 +6,8 @@ import toast from 'react-hot-toast';
 import { 
     LogOut, User, ChevronDown, BookOpenCheck, CalendarClock, Menu, X, 
     BookOpen, Home, Sparkles, Compass, 
-    User2
+    User2,
+    PackageSearch
 } from 'lucide-react';
 import { userAtom } from '../atoms/userAtom';
 import { loadingAtom } from '../atoms/states.atom';
@@ -51,14 +52,14 @@ const Navbar = () => {
         { href: "/", icon: Home, label: "Dashboard", color: "purple" },
         { href: "/profile", icon: User2, label: "Profile", color: "red" },
         { href: "/subjects", icon: BookOpen, label: "Subjects", color: "blue" },
-        { href: "/explore", icon: Compass, label: "Explore", color: "cyan" },
+        { href: "/explore", icon: PackageSearch, label: "Explore", color: "cyan" },
         { href: "/syllabus", icon: BookOpenCheck, label: "Syllabus", color: "green", external: false },
         { href: "/datesheet", icon: CalendarClock, label: "Datesheet", color: "orange", external: false },
     ];
     const navLinks1 = [
         { href: "/", icon: Home, label: "Dashboard", color: "purple" },
         { href: "/subjects", icon: BookOpen, label: "Subjects", color: "blue" },
-        { href: "/explore", icon: Compass, label: "Explore", color: "cyan" },
+        { href: "/explore", icon: PackageSearch, label: "Explore", color: "cyan" },
         { href: "/syllabus", icon: BookOpenCheck, label: "Syllabus", color: "green", external: false },
         { href: "/datesheet", icon: CalendarClock, label: "Datesheet", color: "orange", external: false },
     ];

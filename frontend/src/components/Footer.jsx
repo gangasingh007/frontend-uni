@@ -23,6 +23,7 @@ import {
   Clock,
   Award,
   BookAIcon,
+  PhoneCall,
 } from 'lucide-react';
 import { useRecoilState } from "recoil";
 import { statsAtom } from "../atoms/stats.Atom";
@@ -247,12 +248,12 @@ const Footer = () => {
                 <span>Developed By Ganga Singh</span>
               </div>
               <div className="flex items-center gap-3 text-gray-400 text-sm">
-                <BookAIcon className="w-4 h-4 text-blue-400" />
-                <span>Student of (Btech-CE: 2023-2027)</span>
-              </div>
-              <div className="flex items-center gap-3 text-gray-400 text-sm">
                 <Mail className="w-4 h-4 text-purple-400" />
                 <span>gangasingh1734@gmail.com</span>
+              </div>
+              <div className="flex items-center gap-3 text-gray-400 text-sm">
+                <Phone className="w-4 h-4 text-blue-400" />
+                <span>+91-7087550589</span>
               </div>
               <div className="flex items-center gap-3 text-gray-400 text-sm">
                 <MapPin className="w-4 h-4 text-green-400" />
