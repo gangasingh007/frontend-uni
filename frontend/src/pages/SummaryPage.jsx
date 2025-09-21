@@ -159,7 +159,7 @@ const SummaryPage = () => {
               className="flex flex-col items-center justify-center my-12 text-center text-red-300 bg-red-900/40 p-6 rounded-2xl border border-red-500/50"
             >
               <AlertCircle size={40} className="mb-4 text-red-400" />
-              <p className="font-bold text-xl text-red-300">Analysis Failed</p>
+              <p className="font-bold text-xl text-red-300">OCR Error</p>
               <p className="text-red-300/80 mt-2 max-w-md">{error}</p>
             </motion.div>
           )}
