@@ -181,8 +181,8 @@ const InputField = ({ icon: Icon, name, error, required, ...props }) => (
     </div>
 );
 
-const SelectField = ({ icon: Icon, name, error, required, options, title }) => (
-    <div className="relative">
+const SelectField = ({ icon: Icon, name, error, required, options, title, ...props }) => (
+    <div className="relative space-y-2">
         <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
         <select
             name={name}
@@ -191,7 +191,7 @@ const SelectField = ({ icon: Icon, name, error, required, options, title }) => (
                 error ? 'focus:ring-red-500/50 focus:border-red-500/50' : 'focus:ring-purple-500/50 focus:border-purple-500/50'
             } transition-all duration-300 appearance-none`}
             required={required}
-            
+            {...props}            
         >
             <option value="" disabled className="bg-[#1a1a2e] text-gray-500">{title || 'Select an option'}</option>
             {options.map(option => (
