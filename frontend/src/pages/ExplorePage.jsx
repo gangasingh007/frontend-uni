@@ -137,7 +137,7 @@ const ExplorePage = () => {
       
       <Navbar />
       
-      <main className="relative z-10 px-4 sm:px-6 lg:px-8 py-8">
+      <main className="relative z-10 px-4 sm:px-6 lg:px-8 py-8 ">
         <div className="max-w-5xl mx-auto">
           {/* Enhanced Header */}
           <motion.div 
@@ -164,7 +164,7 @@ const ExplorePage = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 mb-8">
               {[
                 { label: 'Classes', value: totalStats.classes, icon: Folder, color: 'cyan' },
-                { label: 'Subjects', value: 5, icon: BookOpen, color: 'purple' },
+                { label: 'Subjects', value: 6, icon: BookOpen, color: 'purple' },
                 { label: 'Documents', value: totalStats.documents, icon: FileText, color: 'blue' },
                 { label: 'Videos', value: totalStats.videos, icon: Youtube, color: 'red' }
               ].map((stat, index) => (
