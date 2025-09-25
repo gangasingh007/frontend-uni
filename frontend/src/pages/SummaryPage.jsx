@@ -97,7 +97,7 @@ const SummaryPage = () => {
   }, [resourceId, classId, subjectId, navigate]);
 
   return (
-    <div className="bg-black/40 min-h-screen w-full relative text-gray-200 font-sans flex flex-col">
+    <div className="bg-black/30 min-h-screen w-full relative text-gray-200 font-sans flex flex-col">
       <div className="absolute inset-0 -z-10 h-full w-full">
         {/* <InteractiveBackground /> */}
       </div>
@@ -127,7 +127,7 @@ const SummaryPage = () => {
             className="text-gray-400 hover:text-white p-3 rounded-full transition-all duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-black/20 backdrop-blur-sm"
             aria-label="Go back"
           >
-            <ArrowLeft size={24} />
+            <X size={24} />
           </motion.button>
         </div>
       </div>
