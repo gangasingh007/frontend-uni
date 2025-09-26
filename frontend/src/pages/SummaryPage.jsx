@@ -3,8 +3,6 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, X, AlertCircle, ArrowLeft } from "lucide-react";
-import Navbar from "../components/Navbar";
-import InteractiveBackground from "../components/InteractiveBackground";
 import ApiResponseViewer from "../components/ApiResponseViewer";
 
 // A simple validator for MongoDB ObjectIDs

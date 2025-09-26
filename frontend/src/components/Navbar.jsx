@@ -7,7 +7,8 @@ import {
     LogOut, User, ChevronDown, BookOpenCheck, CalendarClock, Menu, X, 
     BookOpen, Home, Sparkles, Compass, 
     User2,
-    PackageSearch
+    PackageSearch,
+    BookCheck
 } from 'lucide-react';
 import { userAtom } from '../atoms/userAtom';
 import { loadingAtom } from '../atoms/states.atom';
@@ -35,7 +36,8 @@ const colorMap = {
     green: { text: 'text-green-400', gradient: 'from-green-500 to-emerald-500' },
     orange: { text: 'text-orange-400', gradient: 'from-orange-500 to-pink-500' },
     cyan: { text: 'text-cyan-400', gradient: 'from-cyan-500 to-sky-500' },
-    red : {text : "text-red-400",gradient : "from-red-500 to-red-600"}
+    red : {text : "text-red-400",gradient : "from-red-500 to-red-600"},
+    pink : {text : "text-pink-400",gradient : "from-pink-500 to-pink-600"},
 };
 
 // Main Navbar Component
@@ -55,6 +57,7 @@ const Navbar = () => {
         { href: "/explore", icon: PackageSearch, label: "Explore", color: "cyan" },
         { href: "/syllabus", icon: BookOpenCheck, label: "Syllabus", color: "green", external: false },
         { href: "/datesheet", icon: CalendarClock, label: "Datesheet", color: "orange", external: false },
+        // { href: "/pyqs", icon: BookCheck, label: "Pyqs", color: "pink", external: false },
     ];
     const navLinks1 = [
         { href: "/", icon: Home, label: "Dashboard", color: "purple" },
@@ -62,6 +65,7 @@ const Navbar = () => {
         { href: "/explore", icon: PackageSearch, label: "Explore", color: "cyan" },
         { href: "/syllabus", icon: BookOpenCheck, label: "Syllabus", color: "green", external: false },
         { href: "/datesheet", icon: CalendarClock, label: "Datesheet", color: "orange", external: false },
+        // { href: "/pyqs", icon: BookCheck, label: "Pyqs", color: "pink", external: false },
     ];
   
 

@@ -21,6 +21,7 @@ import DateSheet from './pages/DateSheet';
 import AcademicCalender from './pages/AcademicCalender';
 import SummaryPage from './pages/SummaryPage';
 import Information from './components/Information'; // Import the new modal component
+import PyqPage from './pages/PyqPage';
 
 const App = () => {
   const [loading, setLoading] = useRecoilState(loadingAtom);
@@ -188,6 +189,7 @@ const App = () => {
             <Route path="/explore" element={<ProtectedRoute><ExplorePage /></ProtectedRoute>} />
             <Route path="/syllabus" element={<ProtectedRoute><Syllabus /></ProtectedRoute>} />
             <Route path="/datesheet" element={<ProtectedRoute><DateSheet /></ProtectedRoute>} />
+            <Route path="/pyqs" element={<ProtectedRoute><PyqPage /></ProtectedRoute>} />
             <Route path="/ac-calendar" element={<ProtectedRoute><AcademicCalender /></ProtectedRoute>} />
             <Route path="/summary" element={<ProtectedRoute><SummaryPage /></ProtectedRoute>} />
           </Routes>
