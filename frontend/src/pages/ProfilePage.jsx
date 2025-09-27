@@ -40,6 +40,7 @@ const ProfilePage = () => {
                 <div className="absolute inset-0 -z-10">
                     <InteractiveBackground />
                 </div>
+                <Navbar />
                 <div className="relative z-10 p-4 sm:p-6 lg:p-8"> {/* Added padding-top for Navbar */}
                     <motion.div
                         className="max-w-7xl mx-auto"
@@ -113,16 +114,7 @@ const PageHeader = ({ navigate }) => (
                 <h1 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-500 to-pink-400 bg-clip-text text-transparent drop-shadow-[0_0_20px_rgba(168,85,247,0.4)] mb-2 pb-2">
                     Profile Settings
                 </h1>
-                <p className="text-lg text-gray-400 max-w-lg">View and manage your account information, academic details, and security settings.</p>
             </div>
-            <motion.button
-                onClick={() => navigate('/')}
-                className="flex items-center gap-2 px-5 py-2.5 bg-black/20 hover:bg-black/40 border border-white/10 rounded-xl transition-all duration-300 text-gray-300 hover:text-white group backdrop-blur-sm shadow-lg"
-                whileHover={{ scale: 1.05, x: -2 }} whileTap={{ scale: 0.95 }}
-            >
-                <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-                Back to Home
-            </motion.button>
         </div>
     </motion.div>
 );

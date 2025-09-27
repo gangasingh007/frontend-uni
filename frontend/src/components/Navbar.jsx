@@ -34,9 +34,9 @@ const colorMap = {
     purple: { text: 'text-purple-400', gradient: 'from-purple-500 to-indigo-500' },
     blue: { text: 'text-blue-400', gradient: 'from-blue-500 to-cyan-500' },
     green: { text: 'text-green-400', gradient: 'from-green-500 to-emerald-500' },
-    orange: { text: 'text-orange-400', gradient: 'from-orange-500 to-pink-500' },
+    orange: { text: 'text-orange-400', gradient: 'from-orange-500 to-orange-400' },
     cyan: { text: 'text-cyan-400', gradient: 'from-cyan-500 to-sky-500' },
-    red : {text : "text-red-400",gradient : "from-red-500 to-red-600"},
+    red : {text : "text-red-400",gradient : "from-red-500 to-red-400"},
     pink : {text : "text-pink-400",gradient : "from-pink-500 to-pink-600"},
 };
 
@@ -52,9 +52,9 @@ const Navbar = () => {
 
     const navLinks = [
         { href: "/", icon: Home, label: "Dashboard", color: "purple" },
-        { href: "/profile", icon: User2, label: "Profile", color: "red" },
+        { href: "/profile", icon: User2, label: "Profile", color: "green" },
         { href: "/subjects", icon: BookOpen, label: "Subjects", color: "blue" },
-        { href: "/explore", icon: PackageSearch, label: "Explore", color: "cyan" },
+        { href: "/explore", icon: PackageSearch, label: "Explore", color: "orange" },
         { href: "/syllabus", icon: BookOpenCheck, label: "Syllabus", color: "green", external: false },
         { href: "/datesheet", icon: CalendarClock, label: "Datesheet", color: "orange", external: false },
         // { href: "/pyqs", icon: BookCheck, label: "Pyqs", color: "pink", external: false },
