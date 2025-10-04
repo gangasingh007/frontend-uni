@@ -183,7 +183,6 @@ const ApiResponseViewer = ({ text }) => {
         <div className="bg-black/30 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl overflow-hidden">
           <div className="max-h-100vh overflow-y-auto custom-scrollbar">
             <div className="p-8 md:p-10 lg:p-12">
-              <button>See the file</button>
               <ReactMarkdown
                 components={{
                   code: CustomCode,
