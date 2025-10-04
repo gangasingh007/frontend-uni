@@ -1,14 +1,14 @@
+// pages/SummaryPage.jsx
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, X, AlertCircle, ArrowLeft } from "lucide-react";
+import { Loader2, X, AlertCircle, ArrowLeft, FileText } from "lucide-react";
 import ApiResponseViewer from "../components/ApiResponseViewer";
+import DocumentPreview from "../components/DocumentPreview";
 
-// A simple validator for MongoDB ObjectIDs
 const isValidMongoId = (id) => /^[0-9a-fA-F]{24}$/.test(id);
 
-// Array of dynamic loading messages for a better UX
 const loadingTexts = [
   "Analyzing document structure...",
   "Extracting key topics and concepts...",
@@ -20,20 +20,28 @@ const loadingTexts = [
 const SummaryPage = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  
-  // Get IDs from URL search parameters
+
   const resourceId = searchParams.get("resourceId");
   const classId = searchParams.get("classId");
   const subjectId = searchParams.get("subjectId");
-  
-  // State management for summary data, loading, and errors
+  const linkFromUrl = searchParams.get("link");
+
   const [summary, setSummary] = useState("");
   const [resourceTitle, setResourceTitle] = useState("");
+  const [resourceLink, setResourceLink] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [loadingTextIndex, setLoadingTextIndex] = useState(0);
+  const [showPreview, setShowPreview] = useState(false);
 
-  // useEffect to cycle through the loading texts while loading is true
+  useEffect(() => {
+    if (linkFromUrl) {
+      const decodedLink = decodeURIComponent(linkFromUrl);
+      setResourceLink(decodedLink);
+      console.log("✅ Resource link from URL:", decodedLink);
+    }
+  }, [linkFromUrl]);
+
   useEffect(() => {
     let interval;
     if (loading) {
@@ -44,7 +52,6 @@ const SummaryPage = () => {
     return () => clearInterval(interval);
   }, [loading]);
 
-  // useEffect for fetching the summary from the backend
   useEffect(() => {
     if (!isValidMongoId(resourceId) || !isValidMongoId(classId) || !isValidMongoId(subjectId)) {
       setError("Invalid or missing information. Please go back and try again.");
@@ -61,27 +68,37 @@ const SummaryPage = () => {
         const token = localStorage.getItem("token");
         const response = await axios.get(
           `${import.meta.env.VITE_BACKEND_URL}/api/v1/resource/gemini-summarize/${classId}/${subjectId}/${resourceId}`,
-          { 
+          {
             headers: { authorization: `Bearer ${token}` },
-            signal: controller.signal
+            signal: controller.signal,
           }
         );
-        
-        setSummary(response.data.summary);
-        if (response.data.resource) {
-          setResourceTitle(response.data.resource.title);
-        }
 
+        console.log("=== API Response ===");
+        console.log("Summary:", response.data.summary ? "✓ Loaded" : "✗ Missing");
+        console.log("Resource Object:", response.data.resource);
+
+        setSummary(response.data.summary);
+
+        if (response.data.resource) {
+          setResourceTitle(response.data.resource.title || "");
+          if (!resourceLink && response.data.resource.link) {
+            setResourceLink(response.data.resource.link);
+            console.log("✓ Resource link from API:", response.data.resource.link);
+          }
+        }
       } catch (err) {
         if (axios.isCancel(err)) {
           console.log("Request canceled:", err.message);
           return;
         }
-        const errorMessage = err.response?.data?.message || "An unexpected error occurred while generating the summary.";
+        const errorMessage =
+          err.response?.data?.message || "An unexpected error occurred while generating the summary.";
         setError(errorMessage);
+        console.error("Error fetching summary:", err);
       } finally {
         if (!controller.signal.aborted) {
-            setLoading(false);
+          setLoading(false);
         }
       }
     };
@@ -91,110 +108,118 @@ const SummaryPage = () => {
     return () => {
       controller.abort();
     };
+  }, [resourceId, classId, subjectId]);
 
-  }, [resourceId, classId, subjectId, navigate]);
+  const handleOpenPreview = () => {
+    console.log("Opening document preview...");
+    setShowPreview(true);
+  };
 
   return (
     <div className="bg-black/30 min-h-screen w-full relative text-gray-200 font-sans flex flex-col">
-      <div className="absolute inset-0 -z-10 h-full w-full">
-        {/* <InteractiveBackground /> */}
-      </div>
-      
-      {/* Fixed Navbar */}
-      <div className="relative z-20">
-        {/* <Navbar /> */}
-      </div>
+      <div className="absolute inset-0 -z-10 h-full w-full">{/* <InteractiveBackground /> */}</div>
 
-      {/* Header Section - Fixed at top */}
+      {/* Header Section */}
       <div className="relative z-10 bg-black/30 backdrop-blur-sm border-b border-purple-500/20 px-4 py-6">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl md:text-4xl pb-1 font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-500 bg-clip-text text-transparent mb-2">
-              AI-Generated Summary
-            </h1>
-            {resourceTitle && (
-              <p className="text-purple-300/90 text-sm italic max-w-2xl">
-                For: "{resourceTitle}"
-              </p>
-            )}
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="flex-1">
+              <h1 className="text-3xl md:text-4xl pb-1 font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-500 bg-clip-text text-transparent mb-2">
+                AI-Generated Summary
+              </h1>
+              {resourceTitle && (
+                <p className="text-purple-300/90 text-sm italic max-w-2xl">For: "{resourceTitle}"</p>
+              )}
+            </div>
+
+            <div className="flex items-center gap-3">
+              {!loading && summary && resourceLink && (
+                <motion.button
+                  onClick={handleOpenPreview}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.3 }}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-purple-500/50 transition-all duration-300 border border-purple-400/30"
+                >
+                  <FileText size={18} />
+                  <span className="hidden sm:inline">View Original File</span>
+                  <span className="sm:hidden">View File</span>
+                </motion.button>
+              )}
+
+              <motion.button
+                onClick={() => navigate(-1)}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="text-gray-400 hover:text-white p-3 rounded-full transition-all duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-black/20 backdrop-blur-sm"
+                aria-label="Go back"
+              >
+                <X size={24} />
+              </motion.button>
+            </div>
           </div>
-          <motion.button 
-            onClick={() => navigate(-1)}
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            className="text-gray-400 hover:text-white p-3 rounded-full transition-all duration-300 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-purple-500 bg-black/20 backdrop-blur-sm"
-            aria-label="Go back"
-          >
-            <X size={24} />
-          </motion.button>
         </div>
       </div>
 
-      {/* Main Content - Takes full remaining height */}
-      <main className="relative z-10 flex-1 flex flex-col">
-        {/* Loading State */}
-        {loading && (
-          <div className="flex-1 flex items-center justify-center px-4">
-            <div className="text-center">
-              <div className="relative flex items-center justify-center mb-6">
-                <div className="absolute h-16 w-16 bg-purple-500/30 rounded-full animate-ping" />
-                <Loader2 className="animate-spin text-purple-400" size={48} />
+      {/* Main Content + Slide-in Preview */}
+      <div className="flex flex-grow overflow-hidden">
+        {/* Summary Section */}
+        <div
+          className={`flex-1 overflow-auto transition-all duration-300 ${
+            showPreview ? "max-w-[60vw]" : "max-w-full"
+          }`}
+        >
+          {loading && (
+            <div className="flex-1 flex items-center justify-center px-4 h-full">
+              <div className="text-center">
+                <div className="relative flex items-center justify-center mb-6">
+                  <div className="absolute h-16 w-16 bg-purple-500/30 rounded-full animate-ping" />
+                  <Loader2 className="animate-spin text-purple-400" size={48} />
+                </div>
+                <div className="h-14 flex items-center justify-center">
+                  <AnimatePresence mode="wait">
+                    <motion.p
+                      key={loadingTexts[loadingTextIndex]}
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      transition={{ duration: 0.4 }}
+                      className="text-purple-300 text-lg md:text-xl font-semibold tracking-wide"
+                    >
+                      {loadingTexts[loadingTextIndex]}
+                    </motion.p>
+                  </AnimatePresence>
+                </div>
+                <p className="text-gray-500 mt-2 text-sm">AI is thinking... this may take a moment.</p>
               </div>
-              <div className="h-14 flex items-center justify-center">
-                <AnimatePresence mode="wait">
-                  <motion.p
-                    key={loadingTexts[loadingTextIndex]}
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    transition={{ duration: 0.4 }}
-                    className="text-purple-300 text-lg md:text-xl font-semibold tracking-wide"
-                  >
-                    {loadingTexts[loadingTextIndex]}
-                  </motion.p>
-                </AnimatePresence>
-              </div>
-              <p className="text-gray-500 mt-2 text-sm">AI is thinking... this may take a moment.</p>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Error State */}
-        {error && !loading && (
-          <div className="flex-1 flex items-center justify-center px-4">
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-center bg-red-900/30 p-8 rounded-2xl border border-red-500/50 max-w-md"
+          {!loading && summary && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="flex-1 overflow-hidden justify-center items-center"
             >
-              <AlertCircle size={40} className="mb-4 text-red-400 mx-auto" />
-              <p className="font-bold text-xl text-red-300 mb-2">An Error Occurred</p>
-              <p className="text-red-300/80 mb-6">{error}</p>
-              <motion.button
-                onClick={() => navigate(-1)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="flex items-center gap-2 px-5 py-2.5 bg-red-500/20 text-red-300 font-semibold rounded-lg border border-red-500/50 hover:bg-red-500/40 transition-all duration-300 mx-auto"
-              >
-                <ArrowLeft size={18} />
-                Go Back
-              </motion.button>
+              <ApiResponseViewer text={summary} />
             </motion.div>
-          </div>
-        )}
+          )}
+        </div>
 
-        {/* Summary Content - Takes full page */}
-        {summary && !loading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="flex-1 overflow-hidden"
-          >
-            <ApiResponseViewer text={summary} />
-          </motion.div>
-        )}
-      </main>
+        {/* Preview Side Pane */}
+        <AnimatePresence>
+          {showPreview && resourceLink && (
+            <DocumentPreview
+              isOpen={showPreview}
+              onClose={() => setShowPreview(false)}
+              resourceLink={resourceLink}
+            />
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };

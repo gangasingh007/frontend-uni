@@ -8,7 +8,8 @@ import {
     Youtube, FileText, Plus, X, AlertCircle, BookOpen, ExternalLink,
     Search, Trash2, Pencil, Sparkles, ServerCrash
 } from 'lucide-react';
-
+import { useSetRecoilState } from 'recoil';
+import { resourceLinkAtom } from '../atoms/resourceLinkAtom';
 import { userAtom } from '../atoms/userAtom';
 import { subjectAtom } from '../atoms/subjectAtom';
 import Navbar from '../components/Navbar';
@@ -97,6 +98,7 @@ const useResourcesAPI = (classId, subjectId) => {
 // --- Main Page Component ---
 const ResourcePage = () => {
     const navigate = useNavigate();
+    const setResourceLink = useSetRecoilState(resourceLinkAtom);
     const user = useRecoilValue(userAtom);
     const [subjectId, setSubjectId] = useRecoilState(subjectAtom);
     
@@ -119,9 +121,12 @@ const ResourcePage = () => {
     const openModal = (mode, resource = null) => setModal({ isOpen: true, mode, resource });
     const closeModal = () => setModal({ isOpen: false, mode: 'add', resource: null });
 
-    const handleSummarize = (resourceId) => {
-        navigate(`/summary?resourceId=${resourceId}&classId=${user.classId}&subjectId=${subjectId}`);
+    const handleSummarize = (resourceId, resourceLink) => {
+        // Encode the link to safely pass it in URL
+        const encodedLink = encodeURIComponent(resourceLink);
+        navigate(`/summary?resourceId=${resourceId}&classId=${user.classId}&subjectId=${subjectId}&link=${encodedLink}`);
     };
+      
 
     const filteredResources = useMemo(() => {
         const list = resources.filter(r => r.type === activeTab);
@@ -264,7 +269,14 @@ const ResourceGrid = ({ resources, loading, error, onRetry, onAddClick, onEdit, 
 
 const ResourceCard = ({ resource, onEdit, onDelete, onSummarize, isAdmin }) => {
     const getIcon = (type) => type === 'Yt-Link' ? <Youtube size={24}/> : <FileText size={24}/>;
-    const authorName = resource.createdBy || 'Admin';
+
+    const handleSummarizeClick = (e) => {
+        e.stopPropagation();
+        console.log("Summarize clicked!");
+        console.log("Resource Link:", resource.link);
+        // Pass both resourceId AND resourceLink
+        onSummarize(resource._id, resource.link);
+    }
 
     return (
         <motion.div
@@ -291,10 +303,16 @@ const ResourceCard = ({ resource, onEdit, onDelete, onSummarize, isAdmin }) => {
                  <div className="mt-4 pt-4 border-t border-white/10 flex justify-between items-center">
                     <div className="flex items-center gap-2">
                          {resource.type === 'Document' && (
-                             <motion.button whileHover={{scale: 1.1}} whileTap={{scale: 0.95}} onClick={(e) => { e.stopPropagation(); onSummarize(resource._id); }} className="p-2 bg-purple-500/20 hover:bg-purple-500/40 text-purple-300 rounded-full" aria-label="Summarize">
+                             <motion.button 
+                                 whileHover={{scale: 1.1}} 
+                                 whileTap={{scale: 0.95}} 
+                                 onClick={handleSummarizeClick}
+                                 className="p-2 bg-purple-500/20 hover:bg-purple-500/40 text-purple-300 rounded-full" 
+                                 aria-label="Summarize"
+                             >
                                  <div className="flex justify-center items-center px-2">
-                                <div className="flex justify-center items-center px-1"><Sparkles size={16} /></div>
-                                 Summarize With AI
+                                    <div className="flex justify-center items-center px-1"><Sparkles size={16} /></div>
+                                     Summarize With AI
                                  </div>
                              </motion.button>
                          )}
@@ -307,7 +325,6 @@ const ResourceCard = ({ resource, onEdit, onDelete, onSummarize, isAdmin }) => {
         </motion.div>
     );
 };
-
 const ActionModal = ({ modalState, onClose, addResource, updateResource, deleteResource, activeTab }) => {
     const { isOpen, mode, resource } = modalState;
     const [formData, setFormData] = useState({ title: '', link: '' });
