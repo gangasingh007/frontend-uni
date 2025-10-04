@@ -38,7 +38,6 @@ const SummaryPage = () => {
     if (linkFromUrl) {
       const decodedLink = decodeURIComponent(linkFromUrl);
       setResourceLink(decodedLink);
-      console.log("✅ Resource link from URL:", decodedLink);
     }
   }, [linkFromUrl]);
 
@@ -74,9 +73,7 @@ const SummaryPage = () => {
           }
         );
 
-        console.log("=== API Response ===");
-        console.log("Summary:", response.data.summary ? "✓ Loaded" : "✗ Missing");
-        console.log("Resource Object:", response.data.resource);
+  
 
         setSummary(response.data.summary);
 
@@ -84,12 +81,11 @@ const SummaryPage = () => {
           setResourceTitle(response.data.resource.title || "");
           if (!resourceLink && response.data.resource.link) {
             setResourceLink(response.data.resource.link);
-            console.log("✓ Resource link from API:", response.data.resource.link);
+            
           }
         }
       } catch (err) {
         if (axios.isCancel(err)) {
-          console.log("Request canceled:", err.message);
           return;
         }
         const errorMessage =
@@ -111,7 +107,6 @@ const SummaryPage = () => {
   }, [resourceId, classId, subjectId]);
 
   const handleOpenPreview = () => {
-    console.log("Opening document preview...");
     setShowPreview(true);
   };
 

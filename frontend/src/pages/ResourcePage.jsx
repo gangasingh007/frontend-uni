@@ -272,8 +272,6 @@ const ResourceCard = ({ resource, onEdit, onDelete, onSummarize, isAdmin }) => {
 
     const handleSummarizeClick = (e) => {
         e.stopPropagation();
-        console.log("Summarize clicked!");
-        console.log("Resource Link:", resource.link);
         // Pass both resourceId AND resourceLink
         onSummarize(resource._id, resource.link);
     }
