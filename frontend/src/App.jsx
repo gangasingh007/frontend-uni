@@ -20,7 +20,7 @@ import Syllabus from './pages/Syllabus';
 import DateSheet from './pages/DateSheet';
 import AcademicCalender from './pages/AcademicCalender';
 import SummaryPage from './pages/SummaryPage';
-import Information from './components/Information'; // Import the new modal component
+import Information from './components/Information';
 import PyqPage from './pages/PyqPage';
 
 const App = () => {
@@ -29,7 +29,7 @@ const App = () => {
   const [user, setUser] = useRecoilState(userAtom);
   const setClassId = useSetRecoilState(classAtom);
   const token = localStorage.getItem("token");
-  const [showInfoModal, setShowInfoModal] = useState(false); // State for the modal
+  const [showInfoModal, setShowInfoModal] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -195,8 +195,6 @@ const App = () => {
           </Routes>
         </BrowserRouter>
       )}
-
-      {/* Information Modal */}
       <Information isOpen={showInfoModal} onClose={() => setShowInfoModal(false)} />
     </div>
   );

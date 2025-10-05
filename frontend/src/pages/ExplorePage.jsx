@@ -61,12 +61,13 @@ const ExplorePage = () => {
     setExpandedItems((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
-  const handleSummarize = (classId, subjectId, resourceId) => {
+  const handleSummarize = (classId, subjectId, resourceId,resourceLink) => {
     if (!classId || !subjectId || !resourceId) {
         toast.error("Could not generate summary due to missing information.");
         return;
     }
-    navigate(`/summary?resourceId=${resourceId}&classId=${classId}&subjectId=${subjectId}`);
+    const encodedLink = encodeURIComponent(resourceLink)
+    navigate(`/summary?resourceId=${resourceId}&classId=${classId}&subjectId=${subjectId}&link=${encodedLink}`);
   };
 
   const filteredData = useMemo(() => {
@@ -162,9 +163,9 @@ const ExplorePage = () => {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 mb-8">
-              {[
+              {[ 
                 { label: 'Classes', value: totalStats.classes, icon: Folder, color: 'cyan' },
-                { label: 'Subjects', value: 6, icon: BookOpen, color: 'purple' },
+                { label: 'Subjects', value: totalStats.subjects, icon: BookOpen, color: 'purple' },
                 { label: 'Documents', value: totalStats.documents, icon: FileText, color: 'blue' },
                 { label: 'Videos', value: totalStats.videos, icon: Youtube, color: 'red' }
               ].map((stat, index) => (
@@ -442,6 +443,12 @@ const ResourceItem = ({ classId, subjectId, resource, onSummarize }) => {
   const viewUrl = isDoc && resource.link ? resource.link.replace('/upload/', '/upload/fl_inline/') : resource.link;
   const downloadUrl = isDoc && resource.link ? resource.link.replace('/upload/', '/upload/fl_attachment/') : null;
 
+  const handleSummarizeClick = (e) => {
+    e.stopPropagation();
+    // Pass classId, subjectId, resourceId, and resourceLink in the expected order
+    onSummarize(classId, subjectId, resource._id, resource.link);
+}
+
   return (
     <motion.div 
       className="flex justify-between items-center text-gray-300 hover:bg-white/10 hover:text-white transition-all duration-300 group p-3 rounded-xl border border-transparent hover:border-white/10"
@@ -475,7 +482,7 @@ const ResourceItem = ({ classId, subjectId, resource, onSummarize }) => {
         {isDoc ? (
           <>
             <motion.button
-              onClick={() => onSummarize(classId, subjectId, resource._id)}
+              onClick={handleSummarizeClick}
               className="p-2 hover:bg-purple-500/20 rounded-full text-purple-400 hover:text-purple-300 border border-transparent hover:border-purple-500/30 transition-all duration-200"
               title="AI Summarize"
               whileHover={{ scale: 1.1 }}
