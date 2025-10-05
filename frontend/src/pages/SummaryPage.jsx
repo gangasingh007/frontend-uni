@@ -159,62 +159,68 @@ const SummaryPage = () => {
       </div>
 
       {/* Main Content + Slide-in Preview */}
-      <div className="flex flex-grow overflow-hidden">
-        {/* Summary Section */}
-        <div
-          className={`flex-1 overflow-auto transition-all duration-300 ${
-            showPreview ? "max-w-[60vw]" : "max-w-full"
-          }`}
-        >
-          {loading && (
-            <div className="flex-1 flex items-center justify-center px-4 h-full">
-              <div className="text-center">
-                <div className="relative flex items-center justify-center mb-6">
-                  <div className="absolute h-16 w-16 bg-purple-500/30 rounded-full animate-ping" />
-                  <Loader2 className="animate-spin text-purple-400" size={48} />
-                </div>
-                <div className="h-14 flex items-center justify-center">
-                  <AnimatePresence mode="wait">
-                    <motion.p
-                      key={loadingTexts[loadingTextIndex]}
-                      initial={{ opacity: 0, y: -10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      transition={{ duration: 0.4 }}
-                      className="text-purple-300 text-lg md:text-xl font-semibold tracking-wide"
-                    >
-                      {loadingTexts[loadingTextIndex]}
-                    </motion.p>
-                  </AnimatePresence>
-                </div>
-                <p className="text-gray-500 mt-2 text-sm">AI is thinking... this may take a moment.</p>
-              </div>
-            </div>
-          )}
-
-          {!loading && summary && (
+      <div className="flex flex-grow flex-col md:flex-row overflow-hidden transition-all">
+  {/* Summary Section */}
+  <div
+    className={`flex-1 overflow-auto bg-gradient-to-b from-black/30 via-gray-900/50 to-black/20 transition-all duration-300
+      ${showPreview ? "md:max-w-[75vw]" : "max-w-full"}`}
+  >
+    {/* Loading */}
+    {loading && (
+      <div className="flex-1 flex items-center justify-center h-full py-10 px-4">
+        <div className="text-center">
+          <div className="relative flex items-center justify-center mb-6">
             <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="flex-1 overflow-hidden justify-center items-center"
-            >
-              <ApiResponseViewer text={summary} />
-            </motion.div>
-          )}
-        </div>
-
-        {/* Preview Side Pane */}
-        <AnimatePresence>
-          {showPreview && resourceLink && (
-            <DocumentPreview
-              isOpen={showPreview}
-              onClose={() => setShowPreview(false)}
-              resourceLink={resourceLink}
+              className="absolute h-16 w-16 bg-purple-500/30 rounded-full animate-ping"
+              initial={{ scale: 0.9, opacity: 0.7 }}
+              animate={{ scale: 1.1, opacity: 0.9 }}
+              transition={{ duration: 1.5, repeat: Infinity }}
             />
-          )}
-        </AnimatePresence>
+            <Loader2 className="animate-spin text-purple-400" size={48} />
+          </div>
+          <div className="h-14 flex items-center justify-center">
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={loadingTexts[loadingTextIndex]}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                transition={{ duration: 0.4 }}
+                className="text-purple-300 text-lg md:text-xl font-semibold tracking-wide"
+              >
+                {loadingTexts[loadingTextIndex]}
+              </motion.p>
+            </AnimatePresence>
+          </div>
+          <p className="text-gray-400 mt-3 text-xs sm:text-sm">
+            AI is thinking... this may take a moment.
+          </p>
+        </div>
       </div>
+    )}
+    {/* Summary Content */}
+    {!loading && summary && (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="relative overflow-auto px-6 py-6 rounded-2xl bg-black/15 shadow-xl mt-4 mx-auto max-w-5xl"
+      >
+        <ApiResponseViewer text={summary} />
+      </motion.div>
+    )}
+  </div>
+  {/* Preview Side Pane, stacks below on small screens */}
+  {showPreview && resourceLink && (
+    <div className="w-full md:w-[80vw] max-w-[800px] min-w-[320px]">
+      <DocumentPreview
+        isOpen={showPreview}
+        onClose={() => setShowPreview(false)}
+        resourceLink={resourceLink}
+      />
+    </div>
+  )}
+  </div>
     </div>
   );
 };
