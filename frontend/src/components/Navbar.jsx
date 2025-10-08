@@ -5,10 +5,7 @@ import { useNavigate, NavLink, useMatch } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { 
     LogOut, User, ChevronDown, BookOpenCheck, CalendarClock, Menu, X, 
-    BookOpen, Home, Sparkles, Compass, 
-    User2,
-    PackageSearch,
-    BookCheck
+    BookOpen, Home, Sparkles, PackageSearch
 } from 'lucide-react';
 import { userAtom } from '../atoms/userAtom';
 import { loadingAtom } from '../atoms/states.atom';
@@ -36,11 +33,12 @@ const colorMap = {
     green: { text: 'text-green-400', gradient: 'from-green-500 to-emerald-500' },
     orange: { text: 'text-orange-400', gradient: 'from-orange-500 to-orange-400' },
     cyan: { text: 'text-cyan-400', gradient: 'from-cyan-500 to-sky-500' },
-    red : {text : "text-red-400",gradient : "from-red-500 to-red-400"},
-    pink : {text : "text-pink-400",gradient : "from-pink-500 to-pink-600"},
 };
 
-// Main Navbar Component
+/**
+ * Main Navbar Component
+ * Handles the overall layout and scroll behavior.
+ */
 const Navbar = () => {
     const [scrolled, setScrolled] = useState(false);
 
@@ -50,24 +48,18 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
+    // A single source of truth for navigation links
     const navLinks = [
         { href: "/", icon: Home, label: "Dashboard", color: "purple" },
-        { href: "/profile", icon: User2, label: "Profile", color: "green" },
-        { href: "/subjects", icon: BookOpen, label: "Subjects", color: "blue" },
-        { href: "/explore", icon: PackageSearch, label: "Explore", color: "orange" },
-        { href: "/syllabus", icon: BookOpenCheck, label: "Syllabus", color: "green", external: false },
-        { href: "/datesheet", icon: CalendarClock, label: "Datesheet", color: "orange", external: false },
-        // { href: "/pyqs", icon: BookCheck, label: "Pyqs", color: "pink", external: false },
-    ];
-    const navLinks1 = [
-        { href: "/", icon: Home, label: "Dashboard", color: "purple" },
+        { href: "/profile", icon: User, label: "Profile", color: "green" },
         { href: "/subjects", icon: BookOpen, label: "Subjects", color: "blue" },
         { href: "/explore", icon: PackageSearch, label: "Explore", color: "cyan" },
-        { href: "/syllabus", icon: BookOpenCheck, label: "Syllabus", color: "green", external: false },
-        { href: "/datesheet", icon: CalendarClock, label: "Datesheet", color: "orange", external: false },
-        // { href: "/pyqs", icon: BookCheck, label: "Pyqs", color: "pink", external: false },
+        { href: "/syllabus", icon: BookOpenCheck, label: "Syllabus", color: "green" },
+        { href: "/datesheet", icon: CalendarClock, label: "Datesheet", color: "orange" },
     ];
-  
+
+    // Desktop links exclude 'Profile' since it's handled separately now
+    const desktopNavLinks = navLinks.filter(link => link.label !== 'Profile');
 
     return (
         <motion.nav
@@ -81,9 +73,9 @@ const Navbar = () => {
             }`}
         >
             <div className="flex-1 flex justify-start"><Logo /></div>
-            <div className="flex-none hidden lg:flex"><DesktopNav navLinks1={navLinks1} /></div>
+            <div className="flex-none hidden lg:flex"><DesktopNav navLinks={desktopNavLinks} /></div>
             <div className="flex-1 flex justify-end items-center gap-4">
-                <ProfileDropdown />
+                <ProfileActions />
                 <MobileNav navLinks={navLinks} />
             </div>
         </motion.nav>
@@ -93,7 +85,7 @@ const Navbar = () => {
 // --- Child Components ---
 
 const Logo = () => (
-    <motion.a href="/" className="relative text-2xl sm:text-3xl font-bold cursor-pointer group">
+    <NavLink to="/" className="relative text-2xl sm:text-3xl font-bold cursor-pointer group">
         <motion.div
             className="absolute -inset-2 bg-gradient-to-r from-purple-600/20 via-blue-500/20 to-pink-500/20 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             animate={{ rotate: 360 }}
@@ -103,102 +95,66 @@ const Logo = () => (
             UniConnect
         </span>
         <Sparkles className="absolute -top-1 -right-2 w-5 h-5 text-purple-400 opacity-0 group-hover:opacity-100 group-hover:animate-pulse transition-opacity" />
-    </motion.a>
+    </NavLink>
 );
 
-const DesktopNav = ({ navLinks1 }) => {
-    return (
-        <div className="flex items-center gap-1 bg-black/20 border border-white/10 rounded-full p-1.5 shadow-inner shadow-black/20">
-            {navLinks1.map((link) => (
-                <DesktopNavItem key={link.label} link={link} />
-            ))}
-        </div>
-    );
-};
+const DesktopNav = ({ navLinks }) => (
+    <div className="flex items-center gap-1 bg-black/20 border border-white/10 rounded-full p-1.5 shadow-inner shadow-black/20">
+        {navLinks.map((link) => (
+            <DesktopNavItem key={link.label} link={link} />
+        ))}
+    </div>
+);
 
 const DesktopNavItem = ({ link }) => {
     const match = useMatch(link.href);
     const commonClasses = "relative flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-full z-10 transition-colors duration-300";
+    const isActive = !!match;
 
-    const content = (
-        <>
+    return (
+        <NavLink to={link.href} className={`${commonClasses} ${isActive ? 'text-white' : 'text-gray-300 hover:text-white'}`}>
             <link.icon className={`${colorMap[link.color].text} w-4 h-4`} />
             <span>{link.label}</span>
-            {match && (
+            {isActive && (
                 <motion.div
                     layoutId="desktop-nav-indicator"
                     className="absolute inset-0 rounded-full bg-white/10"
                     transition={{ type: "spring", stiffness: 300, damping: 25 }}
                 />
             )}
-        </>
-    );
-
-    if (link.external) {
-        return (
-            <a href={link.href} target="_blank" rel="noopener noreferrer" className={`${commonClasses} text-gray-300 hover:text-white`}>
-                {content}
-            </a>
-        );
-    }
-    
-    return (
-        <NavLink to={link.href} className={`${commonClasses} ${match ? 'text-white' : 'text-gray-300 hover:text-white'}`}>
-            {content}
         </NavLink>
     );
 };
 
-const ProfileDropdown = () => {
+/**
+ * NEW: Replaces the dropdown with distinct Profile and Sign Out buttons.
+ * Visible only on desktop.
+ */
+const ProfileActions = () => {
     const user = useRecoilValue(userAtom);
-    const [isOpen, setIsOpen] = useState(false);
     const { logout } = useAuth();
-    const dropdownRef = useRef(null);
-    const navigate = useNavigate();
+    const profileMatch = useMatch("/profile");
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) setIsOpen(false);
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
-    
     if (!user) return null;
 
     return (
-        <div className="relative hidden lg:block" ref={dropdownRef}>
-            <motion.button
-                onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-2 px-2 py-1.5 rounded-full bg-black/30 hover:bg-black/50 border border-white/10 hover:border-purple-500/50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 group"
-                whileTap={{ scale: 0.97 }}
+        <div className="hidden lg:flex items-center gap-2">
+            <NavLink 
+                to="/profile" 
+                className={`flex items-center gap-2 px-2 py-1.5 rounded-2xl transition-colors duration-300 ${profileMatch ? 'bg-white/10' : 'bg-black/30 hover:bg-black/50 border border-white/10'}`}
             >
                 <div className="relative w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-blue-500 flex items-center justify-center text-white font-bold text-sm">
                     {user.firstName?.charAt(0).toUpperCase()}
                     <div className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 rounded-full border-2 border-black/50"/>
                 </div>
                 <span className="text-white font-medium text-sm pr-1">{user.firstName}</span>
-                <motion.div animate={{ rotate: isOpen ? 180 : 0 }}><ChevronDown className="text-gray-400" size={16} /></motion.div>
-            </motion.button>
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 15, scale: 0.95 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 15, scale: 0.95 }}
-                        className="absolute right-0 mt-3 w-64 bg-gray-950/80 backdrop-blur-2xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
-                    >
-                        <div className="p-4 border-b border-white/10">
-                            <p className="font-semibold text-white">{user.firstName} {user.lastName}</p>
-                            <p className="text-xs text-gray-400 truncate mt-1">{user.email}</p>
-                        </div>
-                        <div className="py-2">
-                            <MenuItem icon={User} label="Profile" onClick={() => { navigate("/profile"); setIsOpen(false); }} />
-                            <MenuItem icon={LogOut} label="Sign Out" onClick={logout} isDanger />
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
+            </NavLink>
+            <button
+                onClick={logout}
+                className="p-2.5 rounded-xl bg-black/30 hover:bg-red-500/20 border border-white/10 hover:border-red-500/50 transition-all duration-300 group relative"
+            >
+                <LogOut className="text-gray-300 group-hover:text-red-400 transition-colors" size={18} />
+            </button>
         </div>
     );
 };
@@ -206,17 +162,17 @@ const ProfileDropdown = () => {
 const MobileNav = ({ navLinks }) => {
     const [isOpen, setIsOpen] = useState(false);
     const { logout } = useAuth();
-    
+    const user = useRecoilValue(userAtom);
+
     useEffect(() => {
         document.body.style.overflow = isOpen ? 'hidden' : '';
+        return () => { document.body.style.overflow = ''; };
     }, [isOpen]);
 
     const menuVariants = {
         open: { x: 0, transition: { type: "spring", stiffness: 300, damping: 35 } },
         closed: { x: "100%", transition: { type: "spring", stiffness: 300, damping: 35 } }
     };
-    const listVariants = { open: { transition: { staggerChildren: 0.07 } } };
-    const itemVariants = { open: { opacity: 1, y: 0 }, closed: { opacity: 0, y: 20 } };
 
     return (
         <div className="lg:hidden">
@@ -229,18 +185,35 @@ const MobileNav = ({ navLinks }) => {
                         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsOpen(false)} className="fixed inset-0 z-40 bg-black/60" />
                         <motion.div variants={menuVariants} initial="closed" animate="open" exit="closed" className="fixed top-0 right-0 bottom-0 z-50 w-full max-w-sm bg-gray-950/90 backdrop-blur-2xl border-l border-white/10">
                             <div className="p-6 h-full flex flex-col">
-                                <div className="flex justify-between items-center mb-8 pb-4 border-b border-white/10">
+                                <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/10">
                                     <Logo />
                                     <motion.button onClick={() => setIsOpen(false)} className="p-2 rounded-full hover:bg-white/10" whileHover={{ rotate: 90 }}>
                                         <X size={24} />
                                     </motion.button>
                                 </div>
-                                <motion.ul variants={listVariants} className="flex-1 flex flex-col gap-2">
+                                
+                                {user && (
+                                     <motion.div 
+                                        className="mb-6"
+                                        initial={{opacity: 0, y: -10}}
+                                        animate={{opacity: 1, y: 0, transition: {delay: 0.2}}}
+                                     >
+                                        <p className="font-semibold text-white text-lg">{user.firstName} {user.lastName}</p>
+                                        <p className="text-sm text-gray-400 truncate mt-1">{user.email}</p>
+                                    </motion.div>
+                                )}
+
+                                <motion.ul className="flex-1 flex flex-col gap-2" variants={{ open: { transition: { staggerChildren: 0.07 } } }}>
                                     {navLinks.map((link) => (
                                         <MobileNavItem key={link.label} link={link} closeMenu={() => setIsOpen(false)} />
                                     ))}
                                 </motion.ul>
-                                <motion.div variants={itemVariants} className="mt-auto pt-6 border-t border-white/10">
+
+                                <motion.div 
+                                    className="mt-auto pt-6 border-t border-white/10"
+                                    initial={{opacity: 0}}
+                                    animate={{opacity: 1, transition: {delay: 0.4}}}
+                                >
                                     <MenuItem icon={LogOut} label="Sign Out" onClick={logout} isDanger />
                                 </motion.div>
                             </div>
@@ -260,7 +233,7 @@ const MobileNavItem = ({ link, closeMenu }) => {
 
     return (
         <motion.li variants={{ open: { opacity: 1, y: 0 }, closed: { opacity: 0, y: 20 } }}>
-            <NavLink to={link.href} target={link.external ? "_blank" : "_self"} onClick={closeMenu} className={classes}>
+            <NavLink to={link.href} onClick={closeMenu} className={classes}>
                 <link.icon size={22} />
                 <span>{link.label}</span>
             </NavLink>
