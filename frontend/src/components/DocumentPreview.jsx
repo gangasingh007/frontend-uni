@@ -76,7 +76,7 @@ const DocumentPreview = ({ isOpen, onClose, resourceLink }) => {
           {/* Sliding Pane */}
           <motion.div
             key="slide-in-pane"
-            className="fixed top-0 right-0 bottom-0 w-full sm:w-[75vw] md:w-[60vw] lg:w-[800px] max-w-full bg-gray-900 border-l border-white/20 shadow-2xl z-50 flex flex-col transition-all"
+            className="h-70vh fixed top-0 right-0 bottom-0 w-full sm:w-[75vw] md:w-[60vw] lg:w-[800px] max-w-full bg-gray-900 border-l border-white/20 shadow-2xl z-50 flex flex-col transition-all"
             variants={slideInVariants}
             initial="hidden"
             animate="visible"

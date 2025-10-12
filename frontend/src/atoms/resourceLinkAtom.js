@@ -1,4 +1,3 @@
-// atoms/resourceLinkAtom.js
 import { atom } from 'recoil';
 
 export const resourceLinkAtom = atom({

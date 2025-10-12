@@ -217,7 +217,6 @@ const ResourcePage = () => {
     );
 };
 
-// --- UI Components ---
 const PageHeader = ({ resourceCount, onAddClick, isAdmin, searchTerm, setSearchTerm }) => (
     <motion.div
         className="mb-12"
@@ -248,7 +247,7 @@ const PageHeader = ({ resourceCount, onAddClick, isAdmin, searchTerm, setSearchT
     </motion.div>
 );
 
-const AiFeatureCard = () => ( <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="relative max-w-7xl mx-auto mb-8 p-6 bg-gradient-to-r from-blue-900/30 to-purple-500/30 rounded-2xl border border-blue-400/30 overflow-hidden" > <div className="absolute -top-1/2 -left-1/4 w-full h-[200%] bg-[radial-gradient(circle_at_center,_rgba(128,90,213,0.3),_transparent_40%)] animate-pulse-slow"></div> <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4"> <div className="p-3 bg-white/10 rounded-full"> <Sparkles className="w-8 h-8 text-purple-300" /> </div> <div> <h3 className="text-xl font-bold text-white">AI Summarization Feature is Coming Soon!</h3> <p className="text-blue-200 mt-1">Summarization for the image based and Scanned documents is not avaliable yet</p> </div> </div> </motion.div> );
+const AiFeatureCard = () => ( <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="relative max-w-7xl mx-auto mb-8 p-6 bg-gradient-to-r from-blue-900/30 to-purple-900/30 rounded-2xl border border-blue-400/30 overflow-hidden" > <div className="absolute -top-1/2 -left-1/4 w-full h-[200%] bg-[radial-gradient(circle_at_center,_rgba(128,90,213,0.3),_transparent_40%)] animate-pulse-slow"></div> <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4"> <div className="p-3 bg-white/10 rounded-full"> <Sparkles className="w-8 h-8 text-purple-300" /> </div> <div> <h3 className="text-xl font-bold text-white">AI Summarization Feature is Coming Soon!</h3> <p className="text-blue-200 mt-1">Summarization for the image based and Scanned documents is not avaliable yet</p> </div> </div> </motion.div> );
 
 const ResourceGrid = ({ resources, loading, error, onRetry, onAddClick, onEdit, onDelete, onSummarize, isAdmin, activeTab }) => {
     if (loading && resources.length === 0) return <Loader message='Loading...' />;
