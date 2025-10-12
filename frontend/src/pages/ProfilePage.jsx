@@ -4,7 +4,6 @@ import { useRecoilState } from 'recoil';
 import { userAtom } from '../atoms/userAtom';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import Navbar from '../components/Navbar'; // Make sure this path is correct
 import Footer from '../components/Footer';
 import {
     User, Edit3, Mail, GraduationCap, Calendar, Hash, Book, Users, X, Eye, EyeOff,
@@ -46,7 +45,6 @@ const ProfilePage = () => {
                 <div className="absolute inset-0 -z-10">
                     <InteractiveBackground />
                 </div>
-                <Navbar />
                 <div className="relative z-10 p-4 sm:p-6 lg:p-8"> {/* Added padding-top for Navbar */}
                     <motion.div
                         className="max-w-7xl mx-auto"
