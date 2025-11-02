@@ -125,7 +125,7 @@ const SummaryPage = () => {
   }, [navigate]);
 
   return (
-    <div className="bg-gradient-to-br from-black via-gray-900 to-black min-h-screen w-full relative text-gray-200 font-sans flex flex-col">
+    <div className="bg-gradient-to-br from-black to-black min-h-screen w-full relative text-gray-200 font-sans flex flex-col">
       {/* Animated background gradient */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse" />
@@ -222,30 +222,7 @@ const SummaryPage = () => {
               >
                 <div className="text-center">
                   {/* Animated loader */}
-                  <div className="relative flex items-center justify-center mb-8">
-                    <motion.div
-                      className="absolute h-20 w-20 rounded-full border-4 border-purple-500/30"
-                      animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.5, 0.8, 0.5],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
-                    />
-                    <motion.div
-                      className="absolute h-16 w-16 rounded-full border-4 border-t-purple-500 border-r-transparent border-b-transparent border-l-transparent"
-                      animate={{ rotate: 360 }}
-                      transition={{
-                        duration: 1,
-                        repeat: Infinity,
-                        ease: "linear",
-                      }}
-                    />
-                    <Loader2 className="text-purple-400" size={32} />
-                  </div>
+                 
 
                   {/* Animated loading text */}
                   <div className="h-20 flex flex-col items-center justify-center">
